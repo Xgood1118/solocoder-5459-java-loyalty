@@ -98,6 +98,7 @@ public class LotteryService {
         if (prize.getPrizeId() == null) {
             prize.setPrizeId("PRIZE" + System.currentTimeMillis() + UUID.randomUUID().toString().substring(0, 4).toUpperCase());
         }
+        prize.setEnabled(true);
         return prizeRepository.save(prize);
     }
 

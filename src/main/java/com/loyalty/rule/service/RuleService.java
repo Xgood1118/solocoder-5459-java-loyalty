@@ -74,6 +74,7 @@ public class RuleService {
     public ActivityRule createActivity(ActivityRule activity) {
         String activityId = "ACT" + System.currentTimeMillis();
         activity.setActivityId(activityId);
+        activity.setEnabled(true);
         activityRules.put(activityId, activity);
         log.info("创建活动: activityId={}, name={}", activityId, activity.getName());
         return activity;

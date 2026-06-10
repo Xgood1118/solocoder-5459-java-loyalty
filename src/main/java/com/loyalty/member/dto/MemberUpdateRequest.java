@@ -14,4 +14,6 @@ public class MemberUpdateRequest {
     private String email;
 
     private LocalDate birthday;
+
+    private String referrerId;
 }

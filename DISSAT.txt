@@ -1,0 +1,4 @@
+产物不满意：
+1. 创建活动后跑消费仍按 1 倍算：POST /api/rules/activities 不带 enabled 时建出来的活动响应里 enabled 字段是 false，POST /api/points/earn/consumption 带 activityId 触发计算时直接走 isActivityValid 短路扣下，后续 2 倍/3 倍/任意倍率的规则引擎全不参与；业务表现是"派工单要求的双倍活动跑不起来"，每次都得显式带 enabled:true。
+2. 同源问题：兑换商品/兑换券/捐赠机构这 3 个新建资源也都默认 enabled=false，POST /api/redemption/{donation,goods/exchange,coupons/exchange} 一调就回 "商品/券/机构不存在或已停用"；后端只有 @PostConstruct 启动时预置那 2 个商品/2 个券/2 个机构能直接用，运营/管理侧通过 API 新建的资源全要手动再加一遍 enabled:true。
+3. 推荐关系创建后无法补救：MemberUpdateRequest 没把 referrerId 字段暴露出来，PUT /api/members/{id} 改不了推荐人；一旦创建时 referrerId 传错（比如传 "X" 之类的占位符），后续 POST /api/points/earn/referral/{id} 会卡在"会员不存在: X"，推荐奖励 100+100 这条业务线对这条会员就废了。

@@ -80,6 +80,22 @@ public class MemberService {
         if (request.getBirthday() != null) {
             member.setBirthday(request.getBirthday());
         }
+        if (request.getReferrerId() != null) {
+            if (member.isRefereeRewardGiven()) {
+                throw new BusinessException("推荐奖励已发放，无法修改推荐人");
+            }
+            String newReferrerId = request.getReferrerId().trim();
+            if (!newReferrerId.isEmpty()) {
+                if (newReferrerId.equals(memberId)) {
+                    throw new BusinessException("不能推荐自己");
+                }
+                Member referrer = memberRepository.findById(newReferrerId);
+                if (referrer == null) {
+                    throw new BusinessException("推荐人不存在: " + newReferrerId);
+                }
+            }
+            member.setReferrerId(newReferrerId.isEmpty() ? null : newReferrerId);
+        }
         member.setUpdatedAt(LocalDateTime.now());
         memberRepository.save(member);
         log.info("更新会员信息: memberId={}", memberId);

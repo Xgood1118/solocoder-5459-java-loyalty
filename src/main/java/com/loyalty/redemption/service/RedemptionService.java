@@ -102,6 +102,7 @@ public class RedemptionService {
         if (goods.getGoodsId() == null) {
             goods.setGoodsId("GOODS" + System.currentTimeMillis());
         }
+        goods.setEnabled(true);
         return goodsRepository.save(goods);
     }
 
@@ -270,6 +271,7 @@ public class RedemptionService {
         if (org.getOrgId() == null) {
             org.setOrgId("ORG" + System.currentTimeMillis());
         }
+        org.setEnabled(true);
         return donationOrgRepository.save(org);
     }
 
