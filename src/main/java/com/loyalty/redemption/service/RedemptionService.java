@@ -180,6 +180,7 @@ public class RedemptionService {
         if (coupon.getCouponTemplateId() == null) {
             coupon.setCouponTemplateId("COUPON" + System.currentTimeMillis());
         }
+        coupon.setEnabled(true);
         return couponRepository.save(coupon);
     }
 
